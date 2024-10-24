@@ -1,4 +1,6 @@
+const ownerComplaint = require("../Models/ownerComplaints")
 const users = require("../Models/userSchema")
+const websiteReview = require("../Models/websiteReview")
 
 exports.addOwnerByAdmin = async (req, res) => {
     console.log("inside admin controller add owner by admin")
@@ -33,16 +35,57 @@ exports.addOwnerByAdmin = async (req, res) => {
 }
 
 
-exports.deleteAddedOwnerByAdmin = async(req,res)=>{
+exports.deleteAddedOwnerByAdmin = async (req, res) => {
     console.log(req.params)
-    const {id} = req.params
-    try{
-        const removeOwener = await users.findByIdAndDelete({_id:id})
+    const { id } = req.params
+    try {
+        const removeOwener = await users.findByIdAndDelete({ _id: id })
         res.status(200).json('owner is removed')
 
     }
+    catch (err) {
+        res.status(401).json("owner removing is faild due to ", err)
+
+    }
+}
+
+
+
+//get owners complaint 
+
+
+exports.getOwnersComplaint = async (req, res) => {
+    // console.log("inside get owners complaint controller")
+    try {
+
+        const ownerComplaints = await ownerComplaint.find()
+        res.status(200).json(ownerComplaints)
+    }
+    catch (err) {
+        res.status(401).json(err)
+
+    }
+
+
+}
+
+
+
+
+
+//get website reviews 
+
+
+exports.getWebsiteReviews = async(req,res)=>{
+    // console.log("inside get website review controller")
+
+    try{
+        const gettingWebReviews = await websiteReview.find()
+        res.status(200).json(gettingWebReviews)
+
+    }
     catch(err){
-        res.status(401).json("owner removing is faild due to ",err)
+        res.status(401).json(err)
 
     }
 }

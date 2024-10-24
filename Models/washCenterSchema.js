@@ -5,6 +5,10 @@ const washcenterSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    ownerName:{
+        type:String,
+        require:true
+    },
     owneremail: {
         type: String,
         require: true

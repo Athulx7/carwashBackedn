@@ -2,7 +2,7 @@ const users = require("../Models/userSchema")
 const jwt = require('jsonwebtoken')
 
 exports.register = async (req, res) => {
-    console.log("indie the user register controller")
+    // console.log("indie the user register controller")
 
     const { username, email, password } = req.body
     try {
@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
             res.status(400).json("accounts already exist")
         }
         else {
-            console.log("user not exist")
+            // console.log("user not exist")
             const newuser = new users({
                 username:username,
                 email:email,
@@ -33,7 +33,7 @@ exports.register = async (req, res) => {
 
 
 exports.login = async(req,res)=>{
-    console.log("inside user login controller")
+    // console.log("inside user login controller")
     const {email,password} = req.body
 
     try{

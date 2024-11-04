@@ -16,9 +16,7 @@ const jwtMiddleware = (req,res,next)=>{
     }
     catch(err){
         res.status(401).json("authorization faid ",err)
-    }
-
-   
+    }   
 }
 
 module.exports = jwtMiddleware

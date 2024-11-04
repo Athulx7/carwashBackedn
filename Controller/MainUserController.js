@@ -124,7 +124,7 @@ exports.addWebReviews = async(req,res)=>{
 
 
 exports.getWebRewviews = async(req,res)=>{
-    console.log("inside get review controller")
+    // console.log("inside get review controller")
     try{
         const gettting = await websiteReview.find()
         res.status(200).json(gettting)
@@ -139,7 +139,7 @@ exports.getWebRewviews = async(req,res)=>{
 
 
 exports.addBookingDetails = async(req,res)=>{
-    console.log("inisde add booking controller")
+    // console.log("inisde add booking controller")
     console.log(req.body)
     const {username,useremail,centername,centerID,ownerID,location,date,time} = req.body
     try{
@@ -183,25 +183,34 @@ exports.addBookingDetails = async(req,res)=>{
 
 
 exports.searchingresult = async(req,res)=>{
-    console.log("inside searching")
+    // console.log("inside searching")
+    // console.log(req.params)
     const addminutes = (time,minute)=>{
         const date = new Date(time)
         return new Date(date.getTime() + minute*60000)
+        
     }
+    
     const {location,date,time} = req.params
+    
     const locationLower = location.toLowerCase()
     try{
         const searchTime = new Date(`${date}T${time}:00`)
-        const startTime = addminutes(searchTime, -20)
-        const endTime = addminutes(searchTime, 20)
+        const startTime = addminutes(searchTime, -20).toISOString()
+        const endTime = addminutes(searchTime, 20).toISOString()
+        console.log(searchTime)
+        console.log(startTime)
+        console.log(endTime)
 
         const searchingStarted = await searchCenter.find({
             location,
             date,
-            time:{$gte:startTime.toISOString(),$lte:endTime.toISOString()}
+            time:{$gte:startTime.slice(11, 16),$lte:endTime.slice(11, 16)}
         })
-
-        const extractCenterID = searchingStarted.map((centerid => centerid.centerID))
+        console.log(searchingStarted)
+       
+        const extractCenterID = searchingStarted.map(centerid => centerid.centerID)
+        console.log(extractCenterID)
 
         const availablity = await  washCenters.find({
             location,

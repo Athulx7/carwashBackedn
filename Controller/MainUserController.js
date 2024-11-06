@@ -85,26 +85,26 @@ exports.addReviewForCenter = async (req, res) => {
 exports.getREviews = async (req, res) => {
     // console.log("inside getreview controler")
     const centerID = req.params.id
-    try{
-        const gettingreviews = await reviewCenter.find({centerID})
+    try {
+        const gettingreviews = await reviewCenter.find({ centerID })
         res.status(200).json(gettingreviews)
 
     }
-    catch(err){
+    catch (err) {
         res.status(401).json(err)
 
     }
-   
-  
+
+
 }
 
 
-exports.addWebReviews = async(req,res)=>{
+exports.addWebReviews = async (req, res) => {
     // console.log("inside add review for web")
     console.log(req.body)
-    const {username,useremail,webreview,webreviewstar} = req.body
+    const { username, useremail, webreview, webreviewstar } = req.body
 
-    try{
+    try {
         const addingreviews = new websiteReview({
             username,
             useremail,
@@ -115,7 +115,7 @@ exports.addWebReviews = async(req,res)=>{
         res.status(200).json(addingreviews)
 
     }
-    catch(err){
+    catch (err) {
         res.status(401).json(err)
 
     }
@@ -123,14 +123,14 @@ exports.addWebReviews = async(req,res)=>{
 
 
 
-exports.getWebRewviews = async(req,res)=>{
+exports.getWebRewviews = async (req, res) => {
     // console.log("inside get review controller")
-    try{
+    try {
         const gettting = await websiteReview.find()
         res.status(200).json(gettting)
 
     }
-    catch(err){
+    catch (err) {
         res.status(401).json(err)
 
     }
@@ -138,11 +138,11 @@ exports.getWebRewviews = async(req,res)=>{
 
 
 
-exports.addBookingDetails = async(req,res)=>{
+exports.addBookingDetails = async (req, res) => {
     // console.log("inisde add booking controller")
     console.log(req.body)
-    const {username,useremail,centername,centerID,ownerID,location,date,time} = req.body
-    try{
+    const { username, useremail, centername, centerID, ownerID, location, date, time } = req.body
+    try {
         const addbooking = new bookingCenter({
             username,
             useremail,
@@ -152,7 +152,7 @@ exports.addBookingDetails = async(req,res)=>{
             location,
             date,
             time,
-            action:false
+            action: false
 
         })
         await addbooking.save()
@@ -175,56 +175,56 @@ exports.addBookingDetails = async(req,res)=>{
 
 
     }
-    catch(err){
+    catch (err) {
         res.status(401).json(err)
 
     }
 }
 
 
-exports.searchingresult = async(req,res)=>{
+exports.searchingresult = async (req, res) => {
     // console.log("inside searching")
     // console.log(req.params)
-    const addminutes = (time,minute)=>{
+    const addminutes = (time, minute) => {
         const date = new Date(time)
-        return new Date(date.getTime() + minute*60000)
-        
+        return new Date(date.getTime() + minute * 60000)
+
     }
-    
-    const {location,date,time} = req.params
-    
+
+    const { location, date, time } = req.params
+
     const locationLower = location.toLowerCase()
-    try{
+    try {
         const searchTime = new Date(`${date}T${time}:00`)
         const startTime = addminutes(searchTime, -20).toISOString()
         const endTime = addminutes(searchTime, 20).toISOString()
-        console.log(searchTime)
-        console.log(startTime)
-        console.log(endTime)
+        // console.log(searchTime)
+        // console.log(startTime)
+        // console.log(endTime)
 
         const searchingStarted = await searchCenter.find({
             location,
             date,
-            time:{$gte:startTime.slice(11, 16),$lte:endTime.slice(11, 16)}
+            time: { $gte: startTime.slice(11, 16), $lte: endTime.slice(11, 16) }
         })
-        console.log(searchingStarted)
-       
+        // console.log(searchingStarted)
+
         const extractCenterID = searchingStarted.map(centerid => centerid.centerID)
         console.log(extractCenterID)
 
-        const availablity = await  washCenters.find({
+        const availablity = await washCenters.find({
             location,
-            _id:{$nin : extractCenterID}
+            _id: { $nin: extractCenterID }
         })
 
         res.status(200).json(availablity)
 
     }
-    catch(err){
+    catch (err) {
         res.status(401).json(err)
 
     }
-    
+
 }
 
 

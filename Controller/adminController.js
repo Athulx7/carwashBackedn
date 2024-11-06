@@ -3,7 +3,7 @@ const users = require("../Models/userSchema")
 const websiteReview = require("../Models/websiteReview")
 
 exports.addOwnerByAdmin = async (req, res) => {
-    console.log("inside admin controller add owner by admin")
+    // console.log("inside admin controller add owner by admin")
     const { centername, username, email, password, role } = req.body
     try {
         const existtinguser = await users.findOne({ email: email })
@@ -36,7 +36,7 @@ exports.addOwnerByAdmin = async (req, res) => {
 
 
 exports.deleteAddedOwnerByAdmin = async (req, res) => {
-    console.log(req.params)
+    // console.log(req.params)
     const { id } = req.params
     try {
         const removeOwener = await users.findByIdAndDelete({ _id: id })
@@ -76,15 +76,15 @@ exports.getOwnersComplaint = async (req, res) => {
 //get website reviews 
 
 
-exports.getWebsiteReviews = async(req,res)=>{
+exports.getWebsiteReviews = async (req, res) => {
     // console.log("inside get website review controller")
 
-    try{
+    try {
         const gettingWebReviews = await websiteReview.find()
         res.status(200).json(gettingWebReviews)
 
     }
-    catch(err){
+    catch (err) {
         res.status(401).json(err)
 
     }

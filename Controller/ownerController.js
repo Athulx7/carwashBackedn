@@ -5,7 +5,7 @@ const searchCenter = require("../Models/searchCenter")
 const washCenters = require("../Models/washCenterSchema")
 
 exports.addCenterdetailsByOwner = async (req, res) => {
-    console.log("inside owner controller")
+    // console.log("inside owner controller")
     const ownerID = req.payload
     console.log(ownerID)
     // console.log(req.body)
@@ -108,7 +108,7 @@ exports.editCenterdetailing = async(req,res)=>{
 //add complaint to the admin
 
 exports.addComplainttoAdmin = async(req,res)=>{
-    console.log("inside addcomplaintot admin controlller")
+    // console.log("inside addcomplaintot admin controlller")
     const ownerID = req.payload
     const {ownername,centername,complaint}=req.body
 
@@ -171,9 +171,9 @@ exports.getavaliblefromsearch = async(req,res)=>{
 
 
 exports.deleteAndUpdate = async(req,res)=>{
-    console.log("inisde delete and update")
+    // console.log("inisde delete and update")
     const {id}=req.params
-    console.log(id)
+    // console.log(id)
     try{
         const deleting = await searchCenter.findOneAndDelete({centerID:id})
         const updating = await bookingCenter.updateOne({centerID:id,action:false},

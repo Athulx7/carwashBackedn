@@ -226,7 +226,8 @@ exports.searchingresult = async (req, res) => {
             location :location.toLowerCase(),
             date,
             time: { $gte: startTime, $lte: endTime }
-        })
+        })  
+        
         // console.log(searchingStarted)
 
         const extractCenterID = searchingStarted.map(centerid => centerid.centerID)

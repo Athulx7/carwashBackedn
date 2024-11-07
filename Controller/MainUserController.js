@@ -185,9 +185,9 @@ exports.addBookingDetails = async (req, res) => {
 exports.searchingresult = async (req, res) => {
     // console.log("inside searching")
     // console.log(req.params)
-    const addminutes = (time, minute) => {
+    const addminutes = (time, minutes) => {
         const date = new Date(time)
-        return new Date(date.getTime() + minute * 60000)
+        return new Date(date.getTime() + minutes * 60000)
 
     }
 
@@ -196,26 +196,28 @@ exports.searchingresult = async (req, res) => {
     const locationLower = location.toLowerCase()
     try {
         const searchTime = new Date(`${date}T${time}:00`)
-        const startTime = addminutes(searchTime, -20).toISOString()
-        const endTime = addminutes(searchTime, 20).toISOString()
+        const startTime = addminutes(searchTime, -20).toTimeString().slice(0,5)
+        const endTime = addminutes(searchTime, 20).toTimeString().slice(0,5)
         // console.log(searchTime)
         // console.log(startTime)
         // console.log(endTime)
 
         const searchingStarted = await searchCenter.find({
-            location,
+            location :location.toLowerCase(),
             date,
-            time: { $gte: startTime.slice(11, 16), $lte: endTime.slice(11, 16) }
+            time: { $gte: startTime, $lte: endTime }
         })
         // console.log(searchingStarted)
 
         const extractCenterID = searchingStarted.map(centerid => centerid.centerID)
-        console.log(extractCenterID)
+        // console.log(extractCenterID)
 
         const availablity = await washCenters.find({
-            location,
+            location : location.toLowerCase(),
             _id: { $nin: extractCenterID }
         })
+        // console.log("abaib")
+        // console.log(availablity)
 
         res.status(200).json(availablity)
 

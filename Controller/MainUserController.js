@@ -212,8 +212,10 @@ exports.searchingresult = async (req, res) => {
     const { location, date, time } = req.params
 
     const searchTimeto24 = hour24Format(time)
+
     try {
-        const searchTime = new Date(`${date}T${searchTimeto24}:00`)
+        const parseDate = new Date(date).toISOString().slice(0,10)
+        const searchTime = new Date(`${parseDate}T${searchTimeto24}:00Z`)
         const startTime = addminutes(searchTime, -20).toTimeString().slice(0,5)
         const endTime = addminutes(searchTime, 20).toTimeString().slice(0,5)
         // console.log(searchTime)

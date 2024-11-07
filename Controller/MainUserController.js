@@ -182,6 +182,24 @@ exports.addBookingDetails = async (req, res) => {
 }
 
 
+//chaneg the time to 24hr format 
+
+const hour24Format = (time)=>{
+    if (/^[0-2]\d:[0-5]\d$/.test(time)) return time;
+
+    const [timePart, modifier] = time.split(" ");
+    let [hours, minutes] = timePart.split(":");
+
+    if (modifier === "PM" && hours !== "12") {
+        hours = parseInt(hours, 10) + 12;
+    } else if (modifier === "AM" && hours === "12") {
+        hours = "00";
+    }
+
+    return `${hours}:${minutes}`;
+}
+
+
 exports.searchingresult = async (req, res) => {
     // console.log("inside searching")
     // console.log(req.params)
@@ -193,9 +211,9 @@ exports.searchingresult = async (req, res) => {
 
     const { location, date, time } = req.params
 
-    const locationLower = location.toLowerCase()
+    const searchTimeto24 = hour24Format(time)
     try {
-        const searchTime = new Date(`${date}T${time}:00`)
+        const searchTime = new Date(`${date}T${searchTimeto24}:00`)
         const startTime = addminutes(searchTime, -20).toTimeString().slice(0,5)
         const endTime = addminutes(searchTime, 20).toTimeString().slice(0,5)
         // console.log(searchTime)

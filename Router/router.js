@@ -22,6 +22,7 @@ router.post('/admin/addowner',adminController.addOwnerByAdmin)
 router.delete('/admin/deleteowner/:id',adminController.deleteAddedOwnerByAdmin)
 router.get('/admin/getcomplaints',adminController.getOwnersComplaint)
 router.get('/admin/getwebreview',adminController.getWebsiteReviews)
+router.get('/admin/getmessage',adminController.getMessages)
 
 //owner
 router.post('/owner/addcenterdetails',jwtMiddleware,multterMiddleware.uploadMultipleField,ownerController.addCenterdetailsByOwner)
@@ -45,6 +46,8 @@ router.post('/user/addwebreview',mainusercontroller.addWebReviews)
 router.get('/user/getwebreview',mainusercontroller.getWebRewviews)
 router.post('/user/addbooking',mainusercontroller.addBookingDetails)
 router.get('/user/search/:location/:date/:time',mainusercontroller.searchingresult)
+router.post('/user/addmessage',mainusercontroller.sendMessage)
+
 
 
 

@@ -1,3 +1,4 @@
+const message = require("../Models/messageSchema")
 const ownerComplaint = require("../Models/ownerComplaints")
 const users = require("../Models/userSchema")
 const websiteReview = require("../Models/websiteReview")
@@ -87,5 +88,22 @@ exports.getWebsiteReviews = async (req, res) => {
     catch (err) {
         res.status(401).json(err)
 
+    }
+}
+
+
+//get user sended messages 
+
+exports.getMessages = async(req,res)=>{
+    // console.log("inside get user messages controller")
+
+    try{
+
+        const result = await message.find()
+        res.status(200).json(result)
+
+    }
+    catch(err){
+        res.status(401).json(err)
     }
 }

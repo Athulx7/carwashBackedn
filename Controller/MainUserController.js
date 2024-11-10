@@ -1,4 +1,5 @@
 const bookingCenter = require("../Models/bookingCenter")
+const message = require("../Models/messageSchema")
 const reviewCenter = require("../Models/reviewForCenter")
 const searchCenter = require("../Models/searchCenter")
 const washCenters = require("../Models/washCenterSchema")
@@ -249,5 +250,32 @@ exports.searchingresult = async (req, res) => {
     }
 
 }
+
+
+
+exports.sendMessage = async (req,res)=>{
+    console.log("inside add send message to admin controller")
+    console.log(req.body)
+    const {username,useremail,phone,messages} = req.body
+    // console.log(message)
+    try{
+
+        const result = new message({
+            userename:username,
+            useremail:useremail,
+            phone:phone,
+            messages:messages
+        })
+
+        await result.save()
+        res.status(201).json(result)
+
+    }
+    catch(err){
+        res.status(401).json(err)
+    }
+}
+
+
 
 
